@@ -1,7 +1,7 @@
 import { Response } from "express"
 import HttpStatus from "./httpStatus"
 
-const genrateResponse = (res: Response, status: HttpStatus, message: string, data?: any, extra: any = {}) => {
+const generateResponse = (res: Response, status: HttpStatus, message: string, data?: any, extra: any = {}) => {
     res.status(status).json({
         message: message,
         data: data,
@@ -9,4 +9,4 @@ const genrateResponse = (res: Response, status: HttpStatus, message: string, dat
     })
 }
 
-export default genrateResponse
+export default generateResponse

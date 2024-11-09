@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import { getUserByUsernameOrEmail, signupDal } from "../../dal/auth.dal";
 import { user } from "@prisma/client";
-import genrateResponse from "../../lib/generateResponse";
+import generateResponse from "../../lib/generateResponse";
 import HttpStatus from "../../lib/httpStatus";
 import { z } from 'zod';
 import validation from "../../lib/vallidation";
@@ -58,7 +58,7 @@ export const signup = async (req: Request, res: Response) => {
         validation(dataToSend, validationSchema)
         dataToSend.password = hashPassword(dataToSend?.password)
         const user = await signupDal(dataToSend)
-        genrateResponse(
+        generateResponse(
             res,
             HttpStatus.OK,
             'User created successfully',
@@ -66,7 +66,7 @@ export const signup = async (req: Request, res: Response) => {
         )
     } catch (err: any) {
         console.error(`[${new Date().toISOString()}]`, err)
-        genrateResponse(
+        generateResponse(
             res,
             err?.status || HttpStatus.BadRequest,
             err?.message as string
@@ -85,7 +85,7 @@ export const login = async (req: Request, res: Response) => {
         const isMatch: boolean = comparePasswords(password, user?.password)
         if (isMatch) {
             const token: string = generateToken(user)
-            genrateResponse(
+            generateResponse(
                 res,
                 HttpStatus.OK,
                 'User logged in successfully',
@@ -96,7 +96,7 @@ export const login = async (req: Request, res: Response) => {
         }
     } catch (err: any) {
         console.error(`[${new Date().toISOString()}]`, err)
-        genrateResponse(
+        generateResponse(
             res,
             err?.status || HttpStatus.BadRequest,
             err?.message as string

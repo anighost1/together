@@ -1,6 +1,7 @@
 import express, { Request, Response } from 'express';
 import { config } from 'dotenv'
 import cors from 'cors'
+import userMiddleware from './middleware/user.middleware';
 
 import authRoute from './router/auth/auth.route'
 
@@ -18,6 +19,12 @@ app.get('/', (req: Request, res: Response) => {
 });
 
 app.use('/api/auth', authRoute)
+
+app.use(userMiddleware) //above this line is no auth and below with auth
+
+app.get('/api/test', (req: Request, res: Response) => {
+    res.send('abc')
+})
 
 app.listen(port, () => {
     console.log(`Together server running at port : ${port}`);
